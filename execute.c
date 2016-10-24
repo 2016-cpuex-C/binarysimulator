@@ -295,17 +295,26 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
             if (break_bit) {
                 printf("c.eq.s\n");
             }
-            condition_bit = (f_reg[op[pc][1]] == f_reg[op[pc][2]]);
+            if (f_reg[op[pc][1]] == f_reg[op[pc][2]]) {
+                pc = op[pc][3];
+                continue;
+            }
         } else if (op_pc_0 == CLES) {
             if (break_bit) {
                 printf("c.le.s\n");
             }
-            condition_bit = (f_reg[op[pc][1]] <= f_reg[op[pc][2]]);
+            if (f_reg[op[pc][1]] <= f_reg[op[pc][2]]) {
+                pc = op[pc][3];
+                continue;
+            }
         } else if (op_pc_0 == CLTS) {
             if (break_bit) {
                 printf("c.lt.s\n");
             }
-            condition_bit = (f_reg[op[pc][1]] < f_reg[op[pc][2]]);
+            if (f_reg[op[pc][1]] < f_reg[op[pc][2]]) {
+                pc = op[pc][3];
+                continue;
+            }
         } else if (op_pc_0 == J) {
             if (break_bit) {
                 printf("j\n");
