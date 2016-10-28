@@ -1,5 +1,6 @@
 #include "y.tab.h"
 #include "global.h" 
+#include "analyze.c"
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
@@ -31,21 +32,24 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
     int break_bit = 0;
     int float_flag = 0;
     int i;
+    long int how_many_times_called[MEM_SIZE];
     for (i = 0; i < MEM_SIZE; i++) {
         mem[i] = INT_MAX;  //initialilze all memory to int_max. to detect invalid memory access
+        how_many_times_called[i] = 0;
     }
 
-    int how_many_times_called[MEM_SIZE];
 
     int pc = 0; 
 
     int op_pc_0;
+    int atoi_option = atoi(option);
 
     while (1){
 
         op_pc_0 = op[pc][0];
+        how_many_times_called[pc] += 1;
 
-        if (atoi(option) == pc && option[0] - *"0" < 10) {
+        if (atoi_option == pc && option[0] - *"0" < 10 && option[0] - *"0" >= 0) {
             break_bit = 1;
         }
         if (break_bit || op_pc_0 == BREAK) { // This instruction is not in mips!!
@@ -412,13 +416,12 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
             break;
         } 
        
-        //how_many_times_called[pc] += 1;
         pc += 1;
         
     }
     
    
-    //analyze_how_many_times_called(op, how_many_times_called);
+    analyze_how_many_times_called(op, how_many_times_called);
 
     return;
     
