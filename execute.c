@@ -1,5 +1,5 @@
 #include "y.tab.h"
-#include "global.h" 
+#include "global.h"
 #include "analyze.c"
 #include <stdlib.h>
 #include <stdio.h>
@@ -21,14 +21,14 @@ int label_cache[label_cache_size];
 
 void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option)
 {
-    FILE *f;
+    /*FILE *f;*/
 
     int32_t reg[32];
     reg[28] = MEM_SIZE / 2;
     float f_reg[32];
     int32_t hi, lo;
     int32_t mem[MEM_SIZE];
-    int condition_bit = 0;
+    /*int condition_bit = 0;*/
     int break_bit = 0;
     int float_flag = 0;
     int i;
@@ -39,7 +39,7 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
     }
 
 
-    int pc = 0; 
+    int pc = 0;
 
     int op_pc_0;
     int atoi_option = atoi(option);
@@ -57,78 +57,78 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
             int temp;
             break_bit = 1;
             printf("pc: %d\n", pc);
-            printf("reg: ");fflush(stdout); 
-            printf("\n    zr    at    v0    v1    a0    a1    a2    a3\n");fflush(stdout); 
+            printf("reg: ");fflush(stdout);
+            printf("\n    zr    at    v0    v1    a0    a1    a2    a3\n");fflush(stdout);
             for (i = 0; i < 8; i++) {
-                printf("%6d", reg[i]);fflush(stdout); 
+                printf("%6d", reg[i]);fflush(stdout);
             }
-            printf("\n    t0    t1    t2    t3    t4    t5    t6    t7\n");fflush(stdout); 
+            printf("\n    t0    t1    t2    t3    t4    t5    t6    t7\n");fflush(stdout);
             for (i = 8; i < 16; i++) {
-                printf("%6d", reg[i]);fflush(stdout); 
+                printf("%6d", reg[i]);fflush(stdout);
             }
-            printf("\n    s0    s1    s2    s3    s4    s5    s6    s7\n");fflush(stdout); 
+            printf("\n    s0    s1    s2    s3    s4    s5    s6    s7\n");fflush(stdout);
             for (i = 16; i < 24; i++) {
-                printf("%6d", reg[i]);fflush(stdout); 
+                printf("%6d", reg[i]);fflush(stdout);
             }
-            printf("\n    t8    t9    k0    k1    gp    sp    fp    ra    hi    lo\n");fflush(stdout); 
+            printf("\n    t8    t9    k0    k1    gp    sp    fp    ra    hi    lo\n");fflush(stdout);
             for (i = 24; i < 32; i++) {
-                printf("%6d", reg[i]);fflush(stdout); 
+                printf("%6d", reg[i]);fflush(stdout);
             }
-            printf("%6d", hi);fflush(stdout); 
-            printf("%6d", lo);fflush(stdout); 
-            printf("\n");fflush(stdout); 
+            printf("%6d", hi);fflush(stdout);
+            printf("%6d", lo);fflush(stdout);
+            printf("\n");fflush(stdout);
             if (float_flag != 1) {
-                printf("Press f to show floating point registers. Enter to continue");  
-                temp = getchar();  
+                printf("Press f to show floating point registers. Enter to continue");
+                temp = getchar();
             }
 
             if (temp == 102 || float_flag) {
                 float_flag = 1;
                 int i;
-                printf("f_reg: ");fflush(stdout); 
-                printf("\n");fflush(stdout); 
+                printf("f_reg: ");fflush(stdout);
+                printf("\n");fflush(stdout);
                 for (i = 0; i < 8; i++) {
                     if (f_reg[i] == 0) {
-                        printf("  %2.2f", 0.0);fflush(stdout); 
+                        printf("  %2.2f", 0.0);fflush(stdout);
                     } else {
-                        printf("  %2.2f ", f_reg[i]);fflush(stdout); 
+                        printf("  %2.2f ", f_reg[i]);fflush(stdout);
                     }
                 }
-                printf("\n");fflush(stdout); 
+                printf("\n");fflush(stdout);
                 for (i = 8; i < 16; i++) {
                     if (f_reg[i] == 0) {
-                        printf("  %2.2f", 0.0);fflush(stdout); 
+                        printf("  %2.2f", 0.0);fflush(stdout);
                     } else {
-                        printf("  %2.2f ", f_reg[i]);fflush(stdout); 
+                        printf("  %2.2f ", f_reg[i]);fflush(stdout);
                     }
                 }
-                printf("\n");fflush(stdout); 
+                printf("\n");fflush(stdout);
                 for (i = 16; i < 24; i++) {
                     if (f_reg[i] == 0) {
-                        printf("  %2.2f", 0.0);fflush(stdout); 
+                        printf("  %2.2f", 0.0);fflush(stdout);
                     } else {
-                        printf("  %2.2f ", f_reg[i]);fflush(stdout); 
+                        printf("  %2.2f ", f_reg[i]);fflush(stdout);
                     }
                 }
-                printf("\n");fflush(stdout); 
+                printf("\n");fflush(stdout);
                 for (i = 24; i < 32; i++) {
                     if (f_reg[i] == 0) {
-                        printf("  %2.2f", 0.0);fflush(stdout); 
+                        printf("  %2.2f", 0.0);fflush(stdout);
                     } else {
-                        printf("  %2.2f ", f_reg[i]);fflush(stdout); 
+                        printf("  %2.2f ", f_reg[i]);fflush(stdout);
                     }
                 }
-                printf("\n");fflush(stdout); 
+                printf("\n");fflush(stdout);
                 printf("Press enter to continue.");
-                temp = getchar();  
+                temp = getchar();
             }
-                
-        } 
+
+        }
 
         //printf("%d ", pc);
         if (op_pc_0 == MOVE) {
             if (break_bit) {
-                printf("move\n"); 
+                printf("move\n");
             }
             reg[op[pc][1]] = reg[op[pc][2]];
         } else if (op_pc_0 == NEG) {
@@ -235,6 +235,7 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
             if (break_bit) {
                 printf("lwr\n");
             }
+            assert (reg[op[pc][2]] + op[pc][3] < MEM_SIZE);
             reg[op[pc][1]] = mem[reg[op[pc][2]] + op[pc][3]];
         } else if (op_pc_0 == LSL) {
             if (break_bit) {
@@ -248,20 +249,23 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
                 printf("l.sr\n");
             }
             u temp;
+            assert (reg[op[pc][2]] + op[pc][3] < MEM_SIZE);
             temp.i = mem[reg[op[pc][2]] + op[pc][3]];
             f_reg[op[pc][1]] = temp.f;
         } else if (op_pc_0 == SW) {
             if (break_bit) {
                 printf("sw\n");
             }
+            assert (reg[op[pc][2]] + op[pc][3] < MEM_SIZE);
             mem[reg[op[pc][2]] + op[pc][3]] = reg[op[pc][1]];
         } else if (op_pc_0 == SS) {
             if (break_bit) {
                 printf("s.s\n");
             }
             u temp;
-            temp.f = f_reg[op[pc][1]]; 
-            mem[(reg[op[pc][2]] + op[pc][3])] = temp.i; 
+            temp.f = f_reg[op[pc][1]];
+            assert((reg[op[pc][2]] + op[pc][3]));
+            mem[(reg[op[pc][2]] + op[pc][3])] = temp.i;
         } else if (op_pc_0 == BEQ) {
             if (break_bit) {
                 printf("beq\n");
@@ -269,7 +273,7 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
             if(reg[op[pc][1]] == reg[op[pc][2]]) {
                 pc = op[pc][3];
                 continue;
-            } 
+            }
         } else if (op_pc_0 == BNE) {
             if (break_bit) {
                 printf("bne\n");
@@ -278,7 +282,7 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
             if(reg[op[pc][1]] != reg[op[pc][2]]) {
                 pc = op[pc][3];
                 continue;
-            } 
+            }
         } else if (op_pc_0 == BLT) {
             if (break_bit) {
                 printf("blt\n");
@@ -286,7 +290,7 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
             if(reg[op[pc][1]] < reg[op[pc][2]]) {
                 pc = op[pc][3];
                 continue;
-            } 
+            }
         } else if (op_pc_0 == BGT) {
             if (break_bit) {
                 printf("bgt\n");
@@ -294,7 +298,7 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
             if(reg[op[pc][1]] > reg[op[pc][2]]) {
                 pc = op[pc][3];
                 continue;
-            } 
+            }
         } else if (op_pc_0 == CEQS) {
             if (break_bit) {
                 printf("c.eq.s\n");
@@ -329,7 +333,7 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
             if (break_bit) {
                 printf("jr\n");
             }
-            pc = reg[op[pc][1]]; 
+            pc = reg[op[pc][1]];
             continue;
         } else if (op_pc_0 == JAL) {
             if (break_bit) {
@@ -342,8 +346,8 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
             if (break_bit) {
                 printf("jalr\n");
             }
-            reg[31] = pc + 1; 
-            pc = reg[op[pc][1]]; 
+            reg[31] = pc + 1;
+            pc = reg[op[pc][1]];
             continue;
         } else if (op_pc_0 == PRINTI) {
             if (break_bit) {
@@ -364,12 +368,19 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
             if (break_bit) {
                 printf("read_i\n");
             }
-            scanf("%d", &reg[op[pc][1]]);
+            if (scanf("%d", &reg[op[pc][1]]) != 1) {
+                fprintf(stderr, "readi\n");
+                exit(-1);
+            }
         } else if (op_pc_0 == READF) {
             if (break_bit) {
                 printf("read_f\n");
             }
-            scanf("%f", &f_reg[op[pc][1]]);
+            if (scanf("%f", &f_reg[op[pc][1]]) != 1) {
+                fprintf(stderr, "readf\n");
+                exit(-1);
+            }
+
         } else if (op_pc_0 == SIN) {
             if (break_bit) {
                 printf("sin\n");
@@ -414,16 +425,16 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
                 printf("exit\n");
             }
             break;
-        } 
-       
+        }
+
         pc += 1;
-        
+
     }
-    
-   
+
+
     analyze_how_many_times_called(op, how_many_times_called);
 
     return;
-    
+
 }
 
