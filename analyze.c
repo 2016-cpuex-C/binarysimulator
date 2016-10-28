@@ -1,3 +1,4 @@
+#include <locale.h>
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -17,7 +18,8 @@ analyze_how_many_times_called(int op[MEM_SIZE][5], long int how_many_times_calle
         temp[op[i][0]] += how_many_times_called[i];
         dynamic_count += how_many_times_called[i];
     }
-    fprintf(f, "%ld :number of dynamic instructions\n", dynamic_count);
+    setlocale(LC_NUMERIC, "");
+    fprintf(f, "%'ld :number of dynamic instructions\n", dynamic_count);
     fprintf(f, "\n");
     for (op_pc_0 = 0; op_pc_0 < 500; op_pc_0++) {
         if (op_pc_0 == MOVE) {
