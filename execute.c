@@ -264,7 +264,7 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
             }
             u temp;
             temp.f = f_reg[op[pc][1]];
-            assert((reg[op[pc][2]] + op[pc][3]));
+            assert (reg[op[pc][2]] + op[pc][3] < MEM_SIZE);
             mem[(reg[op[pc][2]] + op[pc][3])] = temp.i;
         } else if (op_pc_0 == BEQ) {
             if (break_bit) {
