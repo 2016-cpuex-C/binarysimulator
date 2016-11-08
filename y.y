@@ -388,7 +388,7 @@ stat:
                 } else if (temp == 34) {
                     fprintf(f, " j");        
                     op[pc][0] = J; 
-                    op[pc][1] = bin2int($1, 6, 21); 
+                    op[pc][1] = bin2int($1, 6, 31); 
                 } else if (temp == 35) {
                     fprintf(f, " jr");        
                     op[pc][0] = JR; 
@@ -396,7 +396,7 @@ stat:
                 } else if (temp == 36) {
                     fprintf(f, " jal");        
                     op[pc][0] = JAL; 
-                    op[pc][1] = bin2int($1, 6, 21); 
+                    op[pc][1] = bin2int($1, 6, 31); 
                 } else if (temp == 37) {
                     fprintf(f, " jalr");        
                     op[pc][0] = JALR; 
