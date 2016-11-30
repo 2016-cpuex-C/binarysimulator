@@ -425,6 +425,11 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
                 printf("exit\n");
             }
             break;
+        } else if (op_pc_0 == PRINTB) {
+            if (break_bit) {
+                printf("print_b\n");
+            }
+            printf("%02hhX", reg[op[pc][1]]);
         }
 
         pc += 1;

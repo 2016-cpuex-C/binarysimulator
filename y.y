@@ -71,6 +71,7 @@ char *str;
 %type <num> FTOI
 %type <num> ITOF
 %type <num> EXIT
+%type <num> PRINTB
 %type <num> BREAK
 
 
@@ -141,6 +142,7 @@ char *str;
 %token FTOI
 %token ITOF
 %token EXIT
+%token PRINTB
 %token BREAK
 
 
@@ -460,6 +462,10 @@ stat:
                     fprintf(f, " exit");
                     op[pc][0] = EXIT; 
                 } else if (temp == 51) {
+                    fprintf(f, " print_b");
+                    op[pc][0] = PRINTB; 
+                    op[pc][1] = bin2int($1, 6, 10); 
+                } else if (temp == 52) {
                     fprintf(f, " break");
                     op[pc][0] = BREAK; 
                 }
