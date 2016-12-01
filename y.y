@@ -510,7 +510,7 @@ main(int argc, char *argv[])
     yyparse();
     fclose(f); 
 
-    execute(op, word, argv[1]);
+    execute(op, word, argv[1], wpc);
 }
 
 yyerror(s)

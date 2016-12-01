@@ -19,7 +19,7 @@ typedef union {
 int label_cache[label_cache_size];
 
 
-void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option)
+void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option, int wpc)
 {
     /*FILE *f;*/
 
@@ -49,14 +49,14 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
         op_pc_0 = op[pc][0];
         how_many_times_called[pc] += 1;
 
-        if (atoi_option == pc && option[0] - *"0" < 10 && option[0] - *"0" >= 0) {
+        if (atoi_option == pc + wpc && option[0] - *"0" < 10 && option[0] - *"0" >= 0) {
             break_bit = 1;
         }
         if (break_bit || op_pc_0 == BREAK) { // This instruction is not in mips!!
             //printf("break\n");
             int temp;
             break_bit = 1;
-            printf("pc: %d\n", pc);
+            printf("pc: %d\n", pc + wpc);
             printf("reg: ");fflush(stdout);
             printf("\n    zr    at    v0    v1    a0    a1    a2    a3\n");fflush(stdout);
             for (i = 0; i < 8; i++) {
