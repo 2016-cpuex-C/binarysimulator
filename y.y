@@ -473,6 +473,7 @@ stat:
             } else {
                 word[wpc][0] = bin2int($1, 0, 31);
                 wpc += 1;;
+                pc = wpc;
             }
 
          }
