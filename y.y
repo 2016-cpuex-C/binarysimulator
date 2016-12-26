@@ -70,8 +70,23 @@ char *str;
 %type <num> SQRT
 %type <num> FTOI
 %type <num> ITOF
+%type <num> BEQI
+%type <num> AND
+%type <num> OR
+%type <num> XOR
+%type <num> ANDI
+%type <num> ORI
+%type <num> XORI
 %type <num> EXIT
-%type <num> PRINTB
+%type <num> SWAP
+%type <num> SWAPS
+%type <num> SELECT
+%type <num> SELECTS
+%type <num> CMP
+%type <num> CMPI
+%type <num> CMPS
+%type <num> CVTWS
+%type <num> CVTSW
 %type <num> BREAK
 
 
@@ -141,8 +156,23 @@ char *str;
 %token SQRT
 %token FTOI
 %token ITOF
+%token BEQI
+%token AND
+%token OR
+%token XOR
+%token ANDI
+%token ORI
+%token XORI
 %token EXIT
-%token PRINTB
+%token SWAP
+%token SWAPS
+%token SELECT
+%token SELECTS
+%token CMP
+%token CMPI
+%token CMPS
+%token CVTWS
+%token CVTSW
 %token BREAK
 
 
@@ -424,48 +454,106 @@ stat:
                     op[pc][0] = READF; 
                     op[pc][1] = bin2int($1, 6, 10); 
                 } else if (temp == 43) {
-                    fprintf(f, " sin");        
-                    op[pc][0] = SIN; 
+                    fprintf(f, " beqi");
+                    op[pc][0] = BEQI; 
                     op[pc][1] = bin2int($1, 6, 10); 
                     op[pc][2] = bin2int($1, 11, 15); 
+                    op[pc][3] = bin2int($1, 16, 31); 
                 } else if (temp == 44) {
-                    fprintf(f, " cos");        
-                    op[pc][0] = COS; 
+                    fprintf(f, " and");
+                    op[pc][0] = AND; 
                     op[pc][1] = bin2int($1, 6, 10); 
                     op[pc][2] = bin2int($1, 11, 15); 
+                    op[pc][3] = bin2int($1, 16, 20); 
                 } else if (temp == 45) {
-                    fprintf(f, " atan");        
-                    op[pc][0] = ATAN; 
+                    fprintf(f, " or");
+                    op[pc][0] = OR; 
                     op[pc][1] = bin2int($1, 6, 10); 
                     op[pc][2] = bin2int($1, 11, 15); 
+                    op[pc][3] = bin2int($1, 16, 20); 
                 } else if (temp == 46) {
-                    fprintf(f, " floor");        
-                    op[pc][0] = FLOOR; 
+                    fprintf(f, " xor");
+                    op[pc][0] = XOR; 
                     op[pc][1] = bin2int($1, 6, 10); 
                     op[pc][2] = bin2int($1, 11, 15); 
+                    op[pc][3] = bin2int($1, 16, 20); 
                 } else if (temp == 47) {
-                    fprintf(f, " sqrt");        
-                    op[pc][0] = SQRT; 
+                    fprintf(f, " andi");
+                    op[pc][0] = ANDI; 
                     op[pc][1] = bin2int($1, 6, 10); 
                     op[pc][2] = bin2int($1, 11, 15); 
+                    op[pc][3] = bin2int($1, 16, 31); 
                 } else if (temp == 48) {
-                    fprintf(f, " ftoi");        
-                    op[pc][0] = FTOI; 
+                    fprintf(f, " ori");
+                    op[pc][0] = ORI; 
                     op[pc][1] = bin2int($1, 6, 10); 
                     op[pc][2] = bin2int($1, 11, 15); 
+                    op[pc][3] = bin2int($1, 16, 31); 
                 } else if (temp == 49) {
-                    fprintf(f, " itof");
-                    op[pc][0] = ITOF; 
+                    fprintf(f, " xori");
+                    op[pc][0] = XORI; 
                     op[pc][1] = bin2int($1, 6, 10); 
                     op[pc][2] = bin2int($1, 11, 15); 
+                    op[pc][3] = bin2int($1, 16, 31); 
                 } else if (temp == 50) {
                     fprintf(f, " exit");
                     op[pc][0] = EXIT; 
                 } else if (temp == 51) {
-                    fprintf(f, " print_b");
-                    op[pc][0] = PRINTB; 
+                    fprintf(f, " swap");        
+                    op[pc][0] = SWAP; 
                     op[pc][1] = bin2int($1, 6, 10); 
+                    op[pc][2] = bin2int($1, 11, 15); 
                 } else if (temp == 52) {
+                    fprintf(f, " swap.s");        
+                    op[pc][0] = SWAPS; 
+                    op[pc][1] = bin2int($1, 6, 10); 
+                    op[pc][2] = bin2int($1, 11, 15); 
+                } else if (temp == 53) {
+                    fprintf(f, " select");        
+                    op[pc][0] = SELECT; 
+                    op[pc][1] = bin2int($1, 6, 10); 
+                    op[pc][2] = bin2int($1, 11, 15); 
+                    op[pc][3] = bin2int($1, 16, 20); 
+                    op[pc][4] = bin2int($1, 21, 25); 
+                } else if (temp == 54) {
+                    fprintf(f, " select.s");        
+                    op[pc][0] = SELECTS; 
+                    op[pc][1] = bin2int($1, 6, 10); 
+                    op[pc][2] = bin2int($1, 11, 15); 
+                    op[pc][3] = bin2int($1, 16, 20); 
+                    op[pc][4] = bin2int($1, 21, 25); 
+                } else if (temp == 55) {
+                    fprintf(f, " cmp");        
+                    op[pc][0] = CMPI; 
+                    op[pc][1] = bin2int($1, 6, 11); 
+                    op[pc][2] = bin2int($1, 12, 16); 
+                    op[pc][3] = bin2int($1, 17, 21); 
+                    op[pc][4] = bin2int($1, 22, 26); 
+                } else if (temp == 56) {
+                    fprintf(f, " cmpi");        
+                    op[pc][0] = CMPI; 
+                    op[pc][1] = bin2int($1, 6, 11); 
+                    op[pc][2] = bin2int($1, 12, 16); 
+                    op[pc][3] = bin2int($1, 17, 21); 
+                    op[pc][4] = bin2int($1, 22, 26); 
+                } else if (temp == 57) {
+                    fprintf(f, " cmp.s");        
+                    op[pc][0] = CMPS; 
+                    op[pc][1] = bin2int($1, 6, 11); 
+                    op[pc][2] = bin2int($1, 12, 16); 
+                    op[pc][3] = bin2int($1, 17, 21); 
+                    op[pc][4] = bin2int($1, 22, 26); 
+                } else if (temp == 58) {
+                    fprintf(f, " cvt.s.w");        
+                    op[pc][0] = CVTSW; 
+                    op[pc][1] = bin2int($1, 6, 10); 
+                    op[pc][2] = bin2int($1, 11, 15); 
+                } else if (temp == 59) {
+                    fprintf(f, " cvt.w.s");        
+                    op[pc][0] = CVTWS; 
+                    op[pc][1] = bin2int($1, 6, 10); 
+                    op[pc][2] = bin2int($1, 11, 15); 
+                } else if (temp == 69) {
                     fprintf(f, " break");
                     op[pc][0] = BREAK; 
                 }

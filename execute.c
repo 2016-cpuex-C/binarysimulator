@@ -423,6 +423,155 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
                 fprintf(stderr, "readf\n");
                 exit(-1);
             }
+        } else if (op_pc_0 == BEQI) {
+            if (break_bit) {
+                printf("beqi\n");
+                printf("%d\n",BEQI-257);
+            }
+            if (reg[op[pc][1]] == op[pc][2]) { 
+                pc = op[pc][3];
+                continue;
+            }
+        } else if (op_pc_0 == AND) {
+            if (break_bit) {
+                printf("and\n");
+                printf("%d\n",AND-257);
+            }
+            reg[op[pc][1]] = reg[op[pc][2]] & reg[op[pc][3]];
+        } else if (op_pc_0 == OR) {
+            if (break_bit) {
+                printf("or\n");
+                printf("%d\n",OR-257);
+            }
+            reg[op[pc][1]] = reg[op[pc][2]] | reg[op[pc][3]];
+        } else if (op_pc_0 == XOR) {
+            if (break_bit) {
+                printf("xor\n");
+                printf("%d\n",XOR-257);
+            }
+            reg[op[pc][1]] = reg[op[pc][2]] ^ reg[op[pc][3]];
+        } else if (op_pc_0 == ANDI) {
+            if (break_bit) {
+                printf("andi\n");
+                printf("%d\n",ANDI-257);
+            }
+            reg[op[pc][1]] = reg[op[pc][2]] & op[pc][3];
+        } else if (op_pc_0 == ORI) {
+            if (break_bit) {
+                printf("ori\n");
+                printf("%d\n",ORI-257);
+            }
+            reg[op[pc][1]] = reg[op[pc][2]] | op[pc][3];
+        } else if (op_pc_0 == XORI) {
+            if (break_bit) {
+                printf("xori\n");
+                printf("%d\n",XORI-257);
+            }
+            reg[op[pc][1]] = reg[op[pc][2]] ^ op[pc][3];
+        } else if (op_pc_0 == EXIT) {
+            if (break_bit) {
+                printf("exit\n");
+                printf("%d\n",EXIT-257);
+            }
+            break;
+        } else if (op_pc_0 == SWAP) {
+            if (break_bit) {
+                printf("swap\n");
+                printf("%d\n",SWAP-257);
+            }
+            int temp2 = reg[op[pc][1]];
+            f_reg[op[pc][1]] = reg[op[pc][2]];
+            f_reg[op[pc][2]] = temp2;
+        } else if (op_pc_0 == SWAPS) {
+            if (break_bit) {
+                printf("swap.s\n");
+                printf("%d\n",SWAPS-257);
+            }
+            float temp2 = reg[op[pc][1]];
+            reg[op[pc][1]] = reg[op[pc][2]];
+            reg[op[pc][2]] = temp2;
+        } else if (op_pc_0 == SELECT) {
+            if (break_bit) {
+                printf("select\n");
+                printf("%d\n",SELECT-257);
+            }
+            reg[op[pc][1]] = reg[op[pc][2]] ? reg[op[pc][3]] : reg[op[pc][4]];
+        } else if (op_pc_0 == SELECTS) {
+            if (break_bit) {
+                printf("select.s\n");
+                printf("%d\n",SELECTS-257);
+            }
+            f_reg[op[pc][1]] = reg[op[pc][2]] ? f_reg[op[pc][3]] : f_reg[op[pc][4]];
+        } else if (op_pc_0 == CMP) {
+            if (break_bit) {
+                printf("cmp\n");
+                printf("%d\n",CMP-257);
+            }
+            if (op[pc][1] == 0) {
+                reg[op[pc][2]] = (reg[op[pc][3]] == reg[op[pc][4]]); 
+            } else if (op[pc][1] == 1) {
+                reg[op[pc][2]] = (reg[op[pc][3]] != reg[op[pc][4]]); 
+            } else if (op[pc][1] == 2) {
+                reg[op[pc][2]] = (reg[op[pc][3]] <= reg[op[pc][4]]); 
+            } else if (op[pc][1] == 3) {
+                reg[op[pc][2]] = (reg[op[pc][3]] >= reg[op[pc][4]]); 
+            } else if (op[pc][1] == 4) {
+                reg[op[pc][2]] = (reg[op[pc][3]] < reg[op[pc][4]]); 
+            } else if (op[pc][1] == 5) {
+                reg[op[pc][2]] = (reg[op[pc][3]] > reg[op[pc][4]]); 
+            }
+        } else if (op_pc_0 == CMPI) {
+            if (break_bit) {
+                printf("cmpi\n");
+                printf("%d\n",CMPI-257);
+            }
+            if (op[pc][1] == 0) {
+                reg[op[pc][2]] = (reg[op[pc][3]] == op[pc][4]); 
+            } else if (op[pc][1] == 1) {
+                reg[op[pc][2]] = (reg[op[pc][3]] != op[pc][4]); 
+            } else if (op[pc][1] == 2) {
+                reg[op[pc][2]] = (reg[op[pc][3]] <= op[pc][4]); 
+            } else if (op[pc][1] == 3) {
+                reg[op[pc][2]] = (reg[op[pc][3]] >= op[pc][4]); 
+            } else if (op[pc][1] == 4) {
+                reg[op[pc][2]] = (reg[op[pc][3]] < op[pc][4]); 
+            } else if (op[pc][1] == 5) {
+                reg[op[pc][2]] = (reg[op[pc][3]] > op[pc][4]); 
+            }
+        } else if (op_pc_0 == CMPS) {
+            if (break_bit) {
+                printf("cmp.s\n");
+                printf("%d\n",CMPS-257);
+            }
+            if (op[pc][1] == 0) {
+                reg[op[pc][2]] = (f_reg[op[pc][3]] == f_reg[op[pc][4]]); 
+            } else if (op[pc][1] == 1) {
+                reg[op[pc][2]] = (f_reg[op[pc][3]] != f_reg[op[pc][4]]); 
+            } else if (op[pc][1] == 2) {
+                reg[op[pc][2]] = (f_reg[op[pc][3]] <= f_reg[op[pc][4]]); 
+            } else if (op[pc][1] == 3) {
+                reg[op[pc][2]] = (f_reg[op[pc][3]] >= f_reg[op[pc][4]]); 
+            } else if (op[pc][1] == 4) {
+                reg[op[pc][2]] = (f_reg[op[pc][3]] < f_reg[op[pc][4]]); 
+            } else if (op[pc][1] == 5) {
+                reg[op[pc][2]] = (f_reg[op[pc][3]] > f_reg[op[pc][4]]); 
+            }
+        } else if (op_pc_0 == CVTSW) {
+            if (break_bit) {
+                printf("cvt.s.w\n");
+                printf("%d\n",CVTSW-257);
+            }
+            u temp2; 
+            temp2.ui = reg[op[pc][2]];
+            f_reg[op[pc][1]] = temp2.f;
+        } else if (op_pc_0 == CVTWS) {
+            if (break_bit) {
+                printf("cvt.w.s\n");
+                printf("%d\n",CVTWS-257);
+            }
+            u temp2; 
+            temp2.f = f_reg[op[pc][2]];
+            reg[op[pc][1]] = temp2.ui;
 
         } else if (op_pc_0 == SIN) {
             if (break_bit) {
@@ -476,12 +625,6 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
                 printf("%d\n",EXIT-257);
             }
             break;
-        } else if (op_pc_0 == PRINTB) {
-            if (break_bit) {
-                printf("print_b ");
-                printf("%d\n",PRINTB-257);
-            }
-            printf("%02hhX", reg[op[pc][1]]);
         }
 
         pc += 1;
