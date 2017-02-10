@@ -51,7 +51,7 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
         if (atoi_option == pc && option[0] - *"0" < 10 && option[0] - *"0" >= 0) {
             break_bit = 1;
         }
-        if (break_bit || op_pc_0 == BREAK) { // This instruction is not in mips!!
+        if ((break_bit || op_pc_0 == BREAK) && !(op_pc_0 == 0)) { // This instruction is not in mips!!
             //printf("break\n");
             printf("\n");
             int temp;
@@ -740,18 +740,18 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
                 printf("%d ", op[pc][4]);
                 printf("%d\n",CMP-257);
             }
-            if (op[pc][1] == 0) {
-                reg[op[pc][2]] = (reg[op[pc][3]] == reg[op[pc][4]]); 
-            } else if (op[pc][1] == 1) {
-                reg[op[pc][2]] = (reg[op[pc][3]] != reg[op[pc][4]]); 
-            } else if (op[pc][1] == 2) {
-                reg[op[pc][2]] = (reg[op[pc][3]] <= reg[op[pc][4]]); 
-            } else if (op[pc][1] == 3) {
-                reg[op[pc][2]] = (reg[op[pc][3]] >= reg[op[pc][4]]); 
-            } else if (op[pc][1] == 4) {
-                reg[op[pc][2]] = (reg[op[pc][3]] < reg[op[pc][4]]); 
-            } else if (op[pc][1] == 5) {
-                reg[op[pc][2]] = (reg[op[pc][3]] > reg[op[pc][4]]); 
+            if (op[pc][4] == 0) {
+                reg[op[pc][1]] = (reg[op[pc][2]] == reg[op[pc][3]]); 
+            } else if (op[pc][4] == 1) {
+                reg[op[pc][1]] = (reg[op[pc][2]] != reg[op[pc][3]]); 
+            } else if (op[pc][4] == 2) {
+                reg[op[pc][1]] = (reg[op[pc][2]] <= reg[op[pc][3]]); 
+            } else if (op[pc][4] == 3) {
+                reg[op[pc][1]] = (reg[op[pc][2]] >= reg[op[pc][3]]); 
+            } else if (op[pc][4] == 4) {
+                reg[op[pc][1]] = (reg[op[pc][2]] < reg[op[pc][3]]); 
+            } else if (op[pc][4] == 5) {
+                reg[op[pc][1]] = (reg[op[pc][2]] > reg[op[pc][3]]); 
             }
         } else if (op_pc_0 == CMPI) {
             if (break_bit) {
@@ -762,40 +762,40 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
                 printf("%d ", op[pc][4]);
                 printf("%d\n",CMPI-257);
             }
-            if (op[pc][1] == 0) {
-                reg[op[pc][2]] = (reg[op[pc][3]] == op[pc][4]); 
-            } else if (op[pc][1] == 1) {
-                reg[op[pc][2]] = (reg[op[pc][3]] != op[pc][4]); 
-            } else if (op[pc][1] == 2) {
-                reg[op[pc][2]] = (reg[op[pc][3]] <= op[pc][4]); 
-            } else if (op[pc][1] == 3) {
-                reg[op[pc][2]] = (reg[op[pc][3]] >= op[pc][4]); 
-            } else if (op[pc][1] == 4) {
-                reg[op[pc][2]] = (reg[op[pc][3]] < op[pc][4]); 
-            } else if (op[pc][1] == 5) {
-                reg[op[pc][2]] = (reg[op[pc][3]] > op[pc][4]); 
+            if (op[pc][4] == 0) {
+                reg[op[pc][1]] = (reg[op[pc][2]] == op[pc][3]); 
+            } else if (op[pc][4] == 1) {
+                reg[op[pc][1]] = (reg[op[pc][2]] != op[pc][3]); 
+            } else if (op[pc][4] == 2) {
+                reg[op[pc][1]] = (reg[op[pc][2]] <= op[pc][3]); 
+            } else if (op[pc][4] == 3) {
+                reg[op[pc][1]] = (reg[op[pc][2]] >= op[pc][3]); 
+            } else if (op[pc][4] == 4) {
+                reg[op[pc][1]] = (reg[op[pc][2]] < op[pc][3]); 
+            } else if (op[pc][4] == 5) {
+                reg[op[pc][1]] = (reg[op[pc][2]] > op[pc][3]); 
             }
         } else if (op_pc_0 == CMPS) {
             if (break_bit) {
                 printf("cmp.s\n");
-                printf("%d ", op[pc][1]);
-                printf("%d ", op[pc][2]);
-                printf("%d ", op[pc][3]);
-                printf("%d ", op[pc][4]);
+                printf("op1 %d ", op[pc][1]);
+                printf("op2 %d ", op[pc][2]);
+                printf("op3 %d ", op[pc][3]);
+                printf("op4 %d ", op[pc][4]);
                 printf("%d\n",CMPS-257);
             }
-            if (op[pc][1] == 0) {
-                reg[op[pc][2]] = (f_reg[op[pc][3]] == f_reg[op[pc][4]]); 
-            } else if (op[pc][1] == 1) {
-                reg[op[pc][2]] = (f_reg[op[pc][3]] != f_reg[op[pc][4]]); 
-            } else if (op[pc][1] == 2) {
-                reg[op[pc][2]] = (f_reg[op[pc][3]] <= f_reg[op[pc][4]]); 
-            } else if (op[pc][1] == 3) {
-                reg[op[pc][2]] = (f_reg[op[pc][3]] >= f_reg[op[pc][4]]); 
-            } else if (op[pc][1] == 4) {
-                reg[op[pc][2]] = (f_reg[op[pc][3]] < f_reg[op[pc][4]]); 
-            } else if (op[pc][1] == 5) {
-                reg[op[pc][2]] = (f_reg[op[pc][3]] > f_reg[op[pc][4]]); 
+            if (op[pc][4] == 0) {
+                reg[op[pc][1]] = (f_reg[op[pc][2]] == f_reg[op[pc][3]]); 
+            } else if (op[pc][4] == 1) {
+                reg[op[pc][1]] = (f_reg[op[pc][2]] != f_reg[op[pc][3]]); 
+            } else if (op[pc][4] == 2) {
+                reg[op[pc][1]] = (f_reg[op[pc][2]] <= f_reg[op[pc][3]]); 
+            } else if (op[pc][4] == 3) {
+                reg[op[pc][1]] = (f_reg[op[pc][2]] >= f_reg[op[pc][3]]); 
+            } else if (op[pc][4] == 4) {
+                reg[op[pc][1]] = (f_reg[op[pc][2]] < f_reg[op[pc][3]]); 
+            } else if (op[pc][4] == 5) {
+                reg[op[pc][1]] = (f_reg[op[pc][2]] > f_reg[op[pc][3]]); 
             }
         } else if (op_pc_0 == CVTSW) {
             if (break_bit) {

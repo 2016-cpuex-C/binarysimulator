@@ -7,7 +7,7 @@
 static int op[MEM_SIZE][5]; 
 static int32_t word[MEM_SIZE][MAX_STR]; 
 
-int pc = -1;
+int pc = 0;
 int wpc = 0;
 FILE *f;
 int parse_error_flag = 0;
@@ -208,7 +208,6 @@ stat:
                 fprintf(f, "%d ", pc);
                 int temp = bin2int($1, 0, 5);
                 if (strstr($1,  "11111111111111111111111111111111")) {
-                    pc += 1;
                 } else if (temp == 0) {
                     fprintf(f, " sqrt");
                     op[pc][0] = SQRT; 
@@ -470,7 +469,11 @@ stat:
                     fprintf(f, " beqi");
                     op[pc][0] = BEQI; 
                     op[pc][1] = bin2int($1, 6, 10); 
-                    op[pc][2] = bin2int($1, 11, 15); 
+                    if (bin2int($1, 11, 11) == 1) {
+                        op[pc][2] = bin2int($1, 12, 15) - 16; 
+                    } else {
+                        op[pc][2] = bin2int($1, 12, 15); 
+                    }
                     op[pc][3] = bin2int($1, 16, 31); 
                 } else if (temp == 44) {
                     fprintf(f, " and");
@@ -538,24 +541,28 @@ stat:
                 } else if (temp == 55) {
                     fprintf(f, " cmp");        
                     op[pc][0] = CMP; 
-                    op[pc][1] = bin2int($1, 6, 11); 
-                    op[pc][2] = bin2int($1, 12, 16); 
-                    op[pc][3] = bin2int($1, 17, 21); 
-                    op[pc][4] = bin2int($1, 22, 26); 
+                    op[pc][1] = bin2int($1, 6, 10); 
+                    op[pc][2] = bin2int($1, 11, 15); 
+                    op[pc][3] = bin2int($1, 16, 20); 
+                    op[pc][4] = bin2int($1, 21, 23); 
                 } else if (temp == 56) {
                     fprintf(f, " cmpi");        
                     op[pc][0] = CMPI; 
-                    op[pc][1] = bin2int($1, 6, 11); 
-                    op[pc][2] = bin2int($1, 12, 16); 
-                    op[pc][3] = bin2int($1, 17, 21); 
-                    op[pc][4] = bin2int($1, 22, 26); 
+                    op[pc][1] = bin2int($1, 6, 10); 
+                    op[pc][2] = bin2int($1, 11, 15); 
+                    if (bin2int($1, 16, 16) == 1) {
+                        op[pc][2] = bin2int($1, 17, 20) - 16; 
+                    } else {
+                        op[pc][2] = bin2int($1, 17, 20); 
+                    }
+                    op[pc][4] = bin2int($1, 21, 23); 
                 } else if (temp == 57) {
                     fprintf(f, " cmp.s");        
                     op[pc][0] = CMPS; 
-                    op[pc][1] = bin2int($1, 6, 11); 
-                    op[pc][2] = bin2int($1, 12, 16); 
-                    op[pc][3] = bin2int($1, 17, 21); 
-                    op[pc][4] = bin2int($1, 22, 26); 
+                    op[pc][1] = bin2int($1, 6, 10); 
+                    op[pc][2] = bin2int($1, 11, 15); 
+                    op[pc][3] = bin2int($1, 16, 20); 
+                    op[pc][4] = bin2int($1, 21, 23); 
                 } else if (temp == 58) {
                     fprintf(f, " cvt.s.w");        
                     op[pc][0] = CVTSW; 
@@ -577,19 +584,31 @@ stat:
                     fprintf(f, " bnei");        
                     op[pc][0] = BNEI; 
                     op[pc][1] = bin2int($1, 6, 10); 
-                    op[pc][2] = bin2int($1, 11, 15); 
+                    if (bin2int($1, 11, 11) == 1) {
+                        op[pc][2] = bin2int($1, 12, 15) - 16; 
+                    } else {
+                        op[pc][2] = bin2int($1, 12, 15); 
+                    }
                     op[pc][3] = bin2int($1, 16, 31); 
                 } else if (temp == 62) {
                     fprintf(f, " blti");        
                     op[pc][0] = BLTI; 
                     op[pc][1] = bin2int($1, 6, 10); 
-                    op[pc][2] = bin2int($1, 11, 15); 
+                    if (bin2int($1, 11, 11) == 1) {
+                        op[pc][2] = bin2int($1, 12, 15) - 16; 
+                    } else {
+                        op[pc][2] = bin2int($1, 12, 15); 
+                    }
                     op[pc][3] = bin2int($1, 16, 31); 
                 } else if (temp == 63) {
                     fprintf(f, " bgti");        
                     op[pc][0] = BGTI; 
                     op[pc][1] = bin2int($1, 6, 10); 
-                    op[pc][2] = bin2int($1, 11, 15); 
+                    if (bin2int($1, 11, 11) == 1) {
+                        op[pc][2] = bin2int($1, 12, 15) - 16; 
+                    } else {
+                        op[pc][2] = bin2int($1, 12, 15); 
+                    }
                     op[pc][3] = bin2int($1, 16, 31); 
                 } else if (temp == 69) {
                     fprintf(f, " break");
