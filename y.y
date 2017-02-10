@@ -21,6 +21,13 @@ char *str;
 } 
 
 
+
+
+
+
+
+
+%type <num> SQRT
 %type <num> MOVE
 %type <num> NEG
 %type <num> ADD
@@ -58,18 +65,11 @@ char *str;
 %type <num> JR
 %type <num> JAL
 %type <num> JALR
-%type <num> PRINTI
-%type <num> PRINTF
+%type <num> SRLI
+%type <num> SLLI
 %type <num> PRINTC
 %type <num> READI
 %type <num> READF
-%type <num> SIN
-%type <num> COS
-%type <num> ATAN
-%type <num> FLOOR
-%type <num> SQRT
-%type <num> FTOI
-%type <num> ITOF
 %type <num> BEQI
 %type <num> AND
 %type <num> OR
@@ -87,6 +87,10 @@ char *str;
 %type <num> CMPS
 %type <num> CVTWS
 %type <num> CVTSW
+%type <num> MADDS
+%type <num> BNEI
+%type <num> BLTI
+%type <num> BGTI
 %type <num> BREAK
 
 
@@ -103,10 +107,7 @@ char *str;
 %start list
 
 
-
-
-
-
+%token SQRT
 %token MOVE
 %token NEG
 %token ADD
@@ -144,18 +145,11 @@ char *str;
 %token JR
 %token JAL
 %token JALR
-%token PRINTI
-%token PRINTF
+%token SRLI
+%token SLLI
 %token PRINTC
 %token READI
 %token READF
-%token SIN
-%token COS
-%token ATAN
-%token FLOOR
-%token SQRT
-%token FTOI
-%token ITOF
 %token BEQI
 %token AND
 %token OR
@@ -173,7 +167,13 @@ char *str;
 %token CMPS
 %token CVTWS
 %token CVTSW
+%token MADDS
+%token BNEI
+%token BLTI
+%token BGTI
 %token BREAK
+
+
 
 
 %token ENTER
@@ -201,11 +201,20 @@ list:
         ;
 stat:    
          LINE {
-            if (text_flag == 1 || strcmp("11111111111111111111111111111111\n", $1) == 0) {
-                fprintf(f, "%d ", pc);
+            if (text_flag == 1 || strcmp($1, "11111111111111111111111111111111\n") == 0) {
+                fprintf(f, "\n ");
                 text_flag = 1;
+            
+                fprintf(f, "%d ", pc);
                 int temp = bin2int($1, 0, 5);
-                if (temp == 1) {
+                if (strstr($1,  "11111111111111111111111111111111")) {
+                    pc += 1;
+                } else if (temp == 0) {
+                    fprintf(f, " sqrt");
+                    op[pc][0] = SQRT; 
+                    op[pc][1] = bin2int($1, 6, 10); 
+                    op[pc][2] = bin2int($1, 11, 15); 
+                } else if (temp == 1) {
                     fprintf(f, " move");
                     op[pc][0] = MOVE; 
                     op[pc][1] = bin2int($1, 6, 10); 
@@ -434,13 +443,17 @@ stat:
                     op[pc][0] = JALR; 
                     op[pc][1] = bin2int($1, 6, 10); 
                 } else if (temp == 38) {
-                    fprintf(f, " print_i");        
-                    op[pc][0] = PRINTI; 
+                    fprintf(f, " srli");        
+                    op[pc][0] = SRLI; 
                     op[pc][1] = bin2int($1, 6, 10); 
+                    op[pc][2] = bin2int($1, 11, 15); 
+                    op[pc][3] = bin2int($1, 16, 20); 
                 } else if (temp == 39) {
-                    fprintf(f, " print_f");        
-                    op[pc][0] = PRINTF; 
+                    fprintf(f, " slli");        
+                    op[pc][0] = SLLI; 
                     op[pc][1] = bin2int($1, 6, 10); 
+                    op[pc][2] = bin2int($1, 11, 15); 
+                    op[pc][3] = bin2int($1, 16, 20); 
                 } else if (temp == 40) {
                     fprintf(f, " print_c");        
                     op[pc][0] = PRINTC; 
@@ -524,7 +537,7 @@ stat:
                     op[pc][4] = bin2int($1, 21, 25); 
                 } else if (temp == 55) {
                     fprintf(f, " cmp");        
-                    op[pc][0] = CMPI; 
+                    op[pc][0] = CMP; 
                     op[pc][1] = bin2int($1, 6, 11); 
                     op[pc][2] = bin2int($1, 12, 16); 
                     op[pc][3] = bin2int($1, 17, 21); 
@@ -553,6 +566,31 @@ stat:
                     op[pc][0] = CVTWS; 
                     op[pc][1] = bin2int($1, 6, 10); 
                     op[pc][2] = bin2int($1, 11, 15); 
+                } else if (temp == 60) {
+                    fprintf(f, " madd.s");        
+                    op[pc][0] = MADDS; 
+                    op[pc][1] = bin2int($1, 6, 10); 
+                    op[pc][2] = bin2int($1, 11, 15); 
+                    op[pc][3] = bin2int($1, 16, 20); 
+                    op[pc][4] = bin2int($1, 21, 26); 
+                } else if (temp == 61) {
+                    fprintf(f, " bnei");        
+                    op[pc][0] = BNEI; 
+                    op[pc][1] = bin2int($1, 6, 10); 
+                    op[pc][2] = bin2int($1, 11, 15); 
+                    op[pc][3] = bin2int($1, 16, 31); 
+                } else if (temp == 62) {
+                    fprintf(f, " blti");        
+                    op[pc][0] = BLTI; 
+                    op[pc][1] = bin2int($1, 6, 10); 
+                    op[pc][2] = bin2int($1, 11, 15); 
+                    op[pc][3] = bin2int($1, 16, 31); 
+                } else if (temp == 63) {
+                    fprintf(f, " bgti");        
+                    op[pc][0] = BGTI; 
+                    op[pc][1] = bin2int($1, 6, 10); 
+                    op[pc][2] = bin2int($1, 11, 15); 
+                    op[pc][3] = bin2int($1, 16, 31); 
                 } else if (temp == 69) {
                     fprintf(f, " break");
                     op[pc][0] = BREAK; 

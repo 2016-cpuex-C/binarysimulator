@@ -22,7 +22,12 @@ analyze_how_many_times_called(int op[MEM_SIZE][5], long int how_many_times_calle
     fprintf(f, "%'ld :number of dynamic instructions\n", dynamic_count);
     fprintf(f, "\n");
     for (op_pc_0 = 0; op_pc_0 < 500; op_pc_0++) {
-        if (op_pc_0 == MOVE) {
+        if (op_pc_0 == SQRT) {
+            if (temp[op_pc_0] != 0) {
+                fprintf(f, "%-10s", "sqrt");
+                fprintf(f, "%ld  \n", temp[op_pc_0]);
+            }
+        } else if (op_pc_0 == MOVE) {
             if (temp[op_pc_0] != 0) {
                 fprintf(f, "%-10s", "move");
                 fprintf(f, "%ld  \n", temp[op_pc_0]);
@@ -207,14 +212,14 @@ analyze_how_many_times_called(int op[MEM_SIZE][5], long int how_many_times_calle
                 fprintf(f, "%-10s", "jalr");
                 fprintf(f, "%ld  \n", temp[op_pc_0]);
             }
-        } else if (op_pc_0 == PRINTI) {
+        } else if (op_pc_0 == SRLI) {
             if (temp[op_pc_0] != 0) {
-                fprintf(f, "%-10s", "print_i");
+                fprintf(f, "%-10s", "srli");
                 fprintf(f, "%ld  \n", temp[op_pc_0]);
             }
-        } else if (op_pc_0 == PRINTF) {
+        } else if (op_pc_0 == SLLI) {
             if (temp[op_pc_0] != 0) {
-                fprintf(f, "%-10s", "print_f");
+                fprintf(f, "%-10s", "slli");
                 fprintf(f, "%ld  \n", temp[op_pc_0]);
             }
         } else if (op_pc_0 == PRINTC) {
@@ -232,44 +237,94 @@ analyze_how_many_times_called(int op[MEM_SIZE][5], long int how_many_times_calle
                 fprintf(f, "%-10s", "read_f");
                 fprintf(f, "%ld  \n", temp[op_pc_0]);
             }
-        } else if (op_pc_0 == SIN) {
+        } else if (op_pc_0 == BEQI) {
             if (temp[op_pc_0] != 0) {
-                fprintf(f, "%-10s", "sin");
+                fprintf(f, "%-10s", "beqi");
                 fprintf(f, "%ld  \n", temp[op_pc_0]);
             }
-        } else if (op_pc_0 == COS) {
+        } else if (op_pc_0 == AND) {
             if (temp[op_pc_0] != 0) {
-                fprintf(f, "%-10s", "cos");
+                fprintf(f, "%-10s", "and");
                 fprintf(f, "%ld  \n", temp[op_pc_0]);
             }
-        } else if (op_pc_0 == ATAN) {
+        } else if (op_pc_0 == OR) {
             if (temp[op_pc_0] != 0) {
-                fprintf(f, "%-10s", "atan");
+                fprintf(f, "%-10s", "or");
                 fprintf(f, "%ld  \n", temp[op_pc_0]);
             }
-        } else if (op_pc_0 == FLOOR) {
+        } else if (op_pc_0 == XOR) {
             if (temp[op_pc_0] != 0) {
-                fprintf(f, "%-10s", "floor");
+                fprintf(f, "%-10s", "xor");
                 fprintf(f, "%ld  \n", temp[op_pc_0]);
             }
-        } else if (op_pc_0 == SQRT) {
+        } else if (op_pc_0 == XORI) {
             if (temp[op_pc_0] != 0) {
-                fprintf(f, "%-10s", "sqrt");
-                fprintf(f, "%ld  \n", temp[op_pc_0]);
-            }
-        } else if (op_pc_0 == FTOI) {
-            if (temp[op_pc_0] != 0) {
-                fprintf(f, "%-10s", "ftoi");
-                fprintf(f, "%ld  \n", temp[op_pc_0]);
-            }
-        } else if (op_pc_0 == ITOF) {
-            if (temp[op_pc_0] != 0) {
-                fprintf(f, "%-10s", "itof");
+                fprintf(f, "%-10s", "xori");
                 fprintf(f, "%ld  \n", temp[op_pc_0]);
             }
         } else if (op_pc_0 == EXIT) {
             if (temp[op_pc_0] != 0) {
                 fprintf(f, "%-10s", "exit");
+                fprintf(f, "%ld  \n", temp[op_pc_0]);
+            }
+        } else if (op_pc_0 == SWAP) {
+            if (temp[op_pc_0] != 0) {
+                fprintf(f, "%-10s", "swap");
+                fprintf(f, "%ld  \n", temp[op_pc_0]);
+            }
+        } else if (op_pc_0 == SWAPS) {
+            if (temp[op_pc_0] != 0) {
+                fprintf(f, "%-10s", "swap.s");
+                fprintf(f, "%ld  \n", temp[op_pc_0]);
+            }
+        } else if (op_pc_0 == SELECT) {
+            if (temp[op_pc_0] != 0) {
+                fprintf(f, "%-10s", "select");
+                fprintf(f, "%ld  \n", temp[op_pc_0]);
+            }
+        } else if (op_pc_0 == CMP) {
+            if (temp[op_pc_0] != 0) {
+                fprintf(f, "%-10s", "cmp");
+                fprintf(f, "%ld  \n", temp[op_pc_0]);
+            }
+        } else if (op_pc_0 == CMPI) {
+            if (temp[op_pc_0] != 0) {
+                fprintf(f, "%-10s", "cmpi");
+                fprintf(f, "%ld  \n", temp[op_pc_0]);
+            }
+        } else if (op_pc_0 == CMPS) {
+            if (temp[op_pc_0] != 0) {
+                fprintf(f, "%-10s", "cmp.s");
+                fprintf(f, "%ld  \n", temp[op_pc_0]);
+            }
+        } else if (op_pc_0 == CVTSW) {
+            if (temp[op_pc_0] != 0) {
+                fprintf(f, "%-10s", "cvt.s.w");
+                fprintf(f, "%ld  \n", temp[op_pc_0]);
+            }
+        } else if (op_pc_0 == CVTWS) {
+            if (temp[op_pc_0] != 0) {
+                fprintf(f, "%-10s", "cvt.w.s");
+                fprintf(f, "%ld  \n", temp[op_pc_0]);
+            }
+        } else if (op_pc_0 == MADDS) {
+            if (temp[op_pc_0] != 0) {
+                fprintf(f, "%-10s", "madd.s");
+                fprintf(f, "%ld  \n", temp[op_pc_0]);
+            }
+        } else if (op_pc_0 == BNEI) {
+            if (temp[op_pc_0] != 0) {
+                fprintf(f, "%-10s", "bnei");
+                fprintf(f, "%ld  \n", temp[op_pc_0]);
+            }
+        } else if (op_pc_0 == BLTI) {
+            if (temp[op_pc_0] != 0) {
+                fprintf(f, "%-10s", "blti");
+                fprintf(f, "%ld  \n", temp[op_pc_0]);
+            }
+        } else if (op_pc_0 == BGTI) {
+            if (temp[op_pc_0] != 0) {
+                fprintf(f, "%-10s", "bgti");
                 fprintf(f, "%ld  \n", temp[op_pc_0]);
             }
         } 
