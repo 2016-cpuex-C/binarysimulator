@@ -446,13 +446,13 @@ stat:
                     op[pc][0] = SRLI; 
                     op[pc][1] = bin2int($1, 6, 10); 
                     op[pc][2] = bin2int($1, 11, 15); 
-                    op[pc][3] = bin2int($1, 16, 20); 
+                    op[pc][3] = bin2int($1, 16, 31); 
                 } else if (temp == 39) {
                     fprintf(f, " slli");        
                     op[pc][0] = SLLI; 
                     op[pc][1] = bin2int($1, 6, 10); 
                     op[pc][2] = bin2int($1, 11, 15); 
-                    op[pc][3] = bin2int($1, 16, 20); 
+                    op[pc][3] = bin2int($1, 16, 31); 
                 } else if (temp == 40) {
                     fprintf(f, " print_c");        
                     op[pc][0] = PRINTC; 
@@ -551,9 +551,9 @@ stat:
                     op[pc][1] = bin2int($1, 6, 10); 
                     op[pc][2] = bin2int($1, 11, 15); 
                     if (bin2int($1, 16, 16) == 1) {
-                        op[pc][2] = bin2int($1, 17, 20) - 16; 
+                        op[pc][3] = bin2int($1, 17, 20) - 16; 
                     } else {
-                        op[pc][2] = bin2int($1, 17, 20); 
+                        op[pc][3] = bin2int($1, 17, 20); 
                     }
                     op[pc][4] = bin2int($1, 21, 23); 
                 } else if (temp == 57) {
