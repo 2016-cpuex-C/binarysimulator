@@ -327,13 +327,13 @@ stat:
                     op[pc][0] = SRL ;
                     op[pc][1] = bin2int($1, 6, 10); 
                     op[pc][2] = bin2int($1, 11, 15); 
-                    op[pc][3] = bin2int($1, 16, 31); 
+                    op[pc][3] = bin2int($1, 16, 20); 
                 } else if (temp == 18) {
                     fprintf(f, " sll");        
                     op[pc][0] = SLL ;
                     op[pc][1] = bin2int($1, 6, 10); 
                     op[pc][2] = bin2int($1, 11, 15); 
-                    op[pc][3] = bin2int($1, 16, 31); 
+                    op[pc][3] = bin2int($1, 16, 20); 
                 } else if (temp == 19) {
                     fprintf(f, " li");        
                     op[pc][0] = LI ;
