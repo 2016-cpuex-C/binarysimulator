@@ -16,7 +16,9 @@ analyze_how_many_times_called(int op[MEM_SIZE][5], long int how_many_times_calle
     long int temp[10000];
     for (i = 0; i < MEM_SIZE; i++) {
         temp[op[i][0]] += how_many_times_called[i];
-        dynamic_count += how_many_times_called[i];
+    }
+    for (op_pc_0 = 1; op_pc_0 < 500; op_pc_0++) {
+        dynamic_count += temp[op_pc_0];
     }
     setlocale(LC_NUMERIC, "");
     fprintf(f, "%'ld :number of dynamic instructions\n", dynamic_count);
