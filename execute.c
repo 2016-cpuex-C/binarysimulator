@@ -7,7 +7,7 @@
 #include <math.h>
 #include <assert.h>
 
-#define label_cache_size 60 
+#define label_cache_size 60
 typedef union {
     int32_t i;
     float f;
@@ -216,12 +216,12 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
                 reg[op[pc][1]] = 0;
             } else {
                 reg[op[pc][1]] = (int) (o2 >> o3);
-            }   
+            }
         } else if (o0 == SLL) {
             if (bb) { printf("sll "); POP printf("%d\n",SLL-257); }
             unsigned int o2,o3;
             o2 = (unsigned int) reg[op[pc][2]];
-            o3 = (unsigned int) reg[op[pc][3]];     
+            o3 = (unsigned int) reg[op[pc][3]];
             reg[op[pc][1]] = (int) (o2 << o3);
         } else if (o0 == LI) {
             if (bb) { printf("li "); POP printf("%d\n",LI-257); }
@@ -326,12 +326,12 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
                 reg[op[pc][1]] = 0;
             } else {
                 reg[op[pc][1]] = (int) (o2 >> o3);
-            }   
+            }
         } else if (o0 == SLLI) {
             if (bb) { printf("slli "); POP printf("%d\n",SLLI-257); }
             unsigned int o2,o3;
             o2 = (unsigned int) reg[op[pc][2]];
-            o3 = (unsigned int) op[pc][3];     
+            o3 = (unsigned int) op[pc][3];
             reg[op[pc][1]] = (int) (o2 << o3);
         } else if (o0 == PRINTC) {
             if (bb) { printf("print_c "); POP printf("%d\n",PRINTC-257); }
@@ -350,7 +350,7 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
             }
         } else if (o0 == BEQI) {
             if (bb) { printf("beqi\n"); POP printf("%d\n",BEQI-257); }
-            if (reg[op[pc][1]] == op[pc][2]) { 
+            if (reg[op[pc][1]] == op[pc][2]) {
                 pc = op[pc][3];
                 continue;
             }
@@ -426,17 +426,20 @@ void execute( int op[MEM_SIZE][5], int32_t word[MEM_SIZE][MAX_STR], char *option
             }
         } else if (o0 == CVTSW) {
             if (bb) { printf("cvt.s.w\n"); POP printf("%d\n",CVTSW-257); }
-            u temp2; 
+            u temp2;
             temp2.i = reg[op[pc][2]];
             f_reg[op[pc][1]] = temp2.f;
         } else if (o0 == CVTWS) {
             if (bb) { printf("cvt.w.s\n"); POP printf("%d\n",CVTWS-257); }
-            u temp2; 
+            u temp2;
             temp2.f = f_reg[op[pc][2]];
             reg[op[pc][1]] = temp2.i;
         } else if (o0 == EXIT) {
             if (bb) { printf("exit "); POP printf("%d\n",EXIT-257); }
             break;
+        } else if (o0 == MADDS) {
+            if (bb) { printf("madds "); POP printf("%d\n",MADDS-257); }
+            f_reg[op[pc][1]] = f_reg[op[pc][2]] + f_reg[op[pc][3]] * f_reg[op[pc][4]];
         } else if (o0 == BNEI) {
             if (bb) { printf("bnei "); POP printf("%d\n",BNEI-257); }
             if(reg[op[pc][1]] != op[pc][2]) {
