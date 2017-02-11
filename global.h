@@ -1,4 +1,4 @@
 #define INT_MAX 2147483647
-#define MEM_SIZE 2000000
+#define MEM_SIZE 200000
 #define MAX_STR 42
 #define STACK_DIRECTION 1

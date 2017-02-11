@@ -446,13 +446,21 @@ stat:
                     op[pc][0] = SRLI; 
                     op[pc][1] = bin2int($1, 6, 10); 
                     op[pc][2] = bin2int($1, 11, 15); 
-                    op[pc][3] = bin2int($1, 16, 31); 
+                    if (bin2int($1, 16, 16) == 1) {
+                        op[pc][3] = bin2int($1, 17, 31) - 32768; 
+                    } else {
+                        op[pc][3] = bin2int($1, 17, 31); 
+                    }
                 } else if (temp == 39) {
                     fprintf(f, " slli");        
                     op[pc][0] = SLLI; 
                     op[pc][1] = bin2int($1, 6, 10); 
                     op[pc][2] = bin2int($1, 11, 15); 
-                    op[pc][3] = bin2int($1, 16, 31); 
+                    if (bin2int($1, 16, 16) == 1) {
+                        op[pc][3] = bin2int($1, 17, 31) - 32768; 
+                    } else {
+                        op[pc][3] = bin2int($1, 17, 31); 
+                    }
                 } else if (temp == 40) {
                     fprintf(f, " print_c");        
                     op[pc][0] = PRINTC; 
@@ -498,19 +506,31 @@ stat:
                     op[pc][0] = ANDI; 
                     op[pc][1] = bin2int($1, 6, 10); 
                     op[pc][2] = bin2int($1, 11, 15); 
-                    op[pc][3] = bin2int($1, 16, 31); 
+                    if (bin2int($1, 16, 16) == 1) {
+                        op[pc][3] = bin2int($1, 17, 31) - 32768; 
+                    } else {
+                        op[pc][3] = bin2int($1, 17, 31); 
+                    }
                 } else if (temp == 48) {
                     fprintf(f, " ori");
                     op[pc][0] = ORI; 
                     op[pc][1] = bin2int($1, 6, 10); 
                     op[pc][2] = bin2int($1, 11, 15); 
-                    op[pc][3] = bin2int($1, 16, 31); 
+                    if (bin2int($1, 16, 16) == 1) {
+                        op[pc][3] = bin2int($1, 17, 31) - 32768; 
+                    } else {
+                        op[pc][3] = bin2int($1, 17, 31); 
+                    }
                 } else if (temp == 49) {
                     fprintf(f, " xori");
                     op[pc][0] = XORI; 
                     op[pc][1] = bin2int($1, 6, 10); 
                     op[pc][2] = bin2int($1, 11, 15); 
-                    op[pc][3] = bin2int($1, 16, 31); 
+                    if (bin2int($1, 16, 16) == 1) {
+                        op[pc][3] = bin2int($1, 17, 31) - 32768; 
+                    } else {
+                        op[pc][3] = bin2int($1, 17, 31); 
+                    }
                 } else if (temp == 50) {
                     fprintf(f, " exit");
                     op[pc][0] = EXIT; 
